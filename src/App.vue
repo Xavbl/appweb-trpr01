@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Boutique from './components/Boutique.vue';
-import "bootstrap/dist/css/bootstrap.min.css";
+  import "bootstrap/dist/css/bootstrap.min.css";
+  import Boutique from './components/Boutique.vue';
 </script>
 
 <template>
