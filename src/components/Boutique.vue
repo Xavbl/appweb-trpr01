@@ -37,12 +37,12 @@ watch(vetementsEtat, (nouvelEtat) => {vetementsEtat.value = nouvelEtat});
 // Prompt : export csv file in vue 3 js
  
 function telechargerCSV() {
-    const entetes = Object.keys(vetements.value[0])
-    const rangeesCSV = []
+    const entetes: (keyof Vetement)[] = Object.keys(vetementsList.value[0]) as (keyof Vetement)[];
+    const rangeesCSV: string[] = []
 
     rangeesCSV.push(entetes.join(","))
 
-    vetements.value.forEach((rangee) =>{
+    vetementsList.value.forEach((rangee) =>{
         const values = entetes.map(entete => {
           // Escape quotes in values
           const escapedValue = (rangee[entete] || '').toString().replace(/"/g, '""')
@@ -56,6 +56,7 @@ function telechargerCSV() {
     const blob = new Blob([stringCSV], { type: 'text/csv;charset=utf-8;'})
     const lien = document.createElement("a")
     const url = URL.createObjectURL(blob)
+
     lien.setAttribute("href", url)
     lien.setAttribute("download", "data.csv")
     lien.style.visibility = 'hidden'
