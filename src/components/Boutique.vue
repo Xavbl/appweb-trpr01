@@ -12,8 +12,8 @@ import ModificationProduit from './ModificationProduit.vue';
 const ajoutProduitActif = ref(false);
 const produitAModifier = ref<Vetement>();
 const idProduitDetailsMontres = ref('');
-const produitsAchetes = ref<Vetement[]>()
-const prixTotal = ref()
+const produitsAchetes = ref<Vetement[]>([])
+const prixTotal = ref<number>()
 
 const vetementsEtat = ref()
 const vetementsList = computed(() => vetements.value)
@@ -66,11 +66,15 @@ function telechargerCSV() {
 
 function acheterProduit(vetement : Vetement){
     produitsAchetes.value?.push(vetement)
+    if(prixTotal.value == undefined){
+        prixTotal.value = 0
+    }
     prixTotal.value += vetement.prix
 }
 
 function retirerProduit(vetement : Vetement){
     prixTotal.value -= vetement.prix
+    prixTotal.value?.toFixed(2)
     const index = produitsAchetes.value?.findIndex(article => article.id === vetement.id)
     if(index == undefined){
         return;
@@ -214,18 +218,14 @@ function sauvegardeModification(produit : Vetement){
     <br>
     <button type="button" class="btn btn-secondary" @click="telechargerCSV()">Exporter en CSV</button>
     <button type="button" class="btn btn-primary" @click="changementAjoutProduit()">Ajouter produit</button>
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Panier (Prix total : {{ prixTotal }} $)
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" v-for="vetement in produitsAchetes">
-            <div v-for="vetement in produitsAchetes">
-                <p> {{ vetement.name }} : {{ vetement.prix }} $</p>
-                <button class="btn btn-warning" @click="retirerProduit(vetement)">Retirer produit</button>
-            </div>
-            <div class="dropdown-divider">
-                <button class="btn btn-success" @click="venteProduits()">Acheter</button>
-            </div>
+    <div>
+        <h3>Panier (Prix total : {{ prixTotal }} $)</h3>
+        <div v-for="vetement in produitsAchetes">
+            <p> {{ vetement.name }} : {{ vetement.prix }} $</p>
+            <button class="btn btn-warning" @click="retirerProduit(vetement)">Retirer produit</button>
+        </div>
+        <div class="dropdown-divider">
+            <button class="btn btn-success" @click="venteProduits()">Acheter</button>
         </div>
     </div>
     <br>
@@ -258,7 +258,7 @@ function sauvegardeModification(produit : Vetement){
                             <p class="text-danger bg-dark"> Quantité restante : {{chandail.quantite}}</p>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-primary" v-bind:disabled="verifierSiQuantiteVideSeul(chandail)">Acheter</button>
+                    <button type="button" class="btn btn-primary" v-bind:disabled="verifierSiQuantiteVideSeul(chandail)" @click="acheterProduit(chandail)">Acheter</button>
                     <button type="button" class="btn btn-info" @click="changementProduitDetailMontre(chandail)">Détails</button>
                     <button type="button" class="btn btn-success" @click="dupliquerProduit(chandail)">Dupliquer</button>
                     <button type="button" class="btn btn-warning" @click="selectionProduitAModifier(chandail)">Mise à jour</button>
@@ -296,7 +296,7 @@ function sauvegardeModification(produit : Vetement){
                             <p class="text-danger bg-dark"> Quantité restante : {{pantalons.quantite}}</p>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-primary" v-bind:disabled="verifierSiQuantiteVideSeul(pantalons)">Acheter</button>
+                    <button type="button" class="btn btn-primary" v-bind:disabled="verifierSiQuantiteVideSeul(pantalons)" @click="acheterProduit(pantalons)">Acheter</button>
                     <button type="button" class="btn btn-info" @click="changementProduitDetailMontre(pantalons)">Détails</button>
                     <button type="button" class="btn btn-success" @click="dupliquerProduit(pantalons)">Dupliquer</button>
                     <button type="button" class="btn btn-warning" @click="selectionProduitAModifier(pantalons)">Mise à jour</button>
@@ -334,7 +334,7 @@ function sauvegardeModification(produit : Vetement){
                             <p class="text-danger bg-dark"> Quantité restante : {{souliers.quantite}}</p>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-primary"  v-bind:disabled="verifierSiQuantiteVideSeul(souliers)">Acheter</button>
+                    <button type="button" class="btn btn-primary"  v-bind:disabled="verifierSiQuantiteVideSeul(souliers)" @click="acheterProduit(souliers)">Acheter</button>
                     <button type="button" class="btn btn-info" @click="changementProduitDetailMontre(souliers)">Détails</button>
                     <button type="button" class="btn btn-success" @click="dupliquerProduit(souliers)">Dupliquer</button>
                     <button type="button" class="btn btn-warning" @click="selectionProduitAModifier(souliers)">Mise à jour</button>
@@ -372,7 +372,7 @@ function sauvegardeModification(produit : Vetement){
                             <p class="text-danger bg-dark"> Quantité restante : {{autre.quantite}}</p>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-primary"  v-bind:disabled="verifierSiQuantiteVideSeul(autre)">Acheter</button>
+                    <button type="button" class="btn btn-primary"  v-bind:disabled="verifierSiQuantiteVideSeul(autre)" @click="acheterProduit(autre)">Acheter</button>
                     <button type="button" class="btn btn-info" @click="changementProduitDetailMontre(autre)">Détails</button>
                     <button type="button" class="btn btn-success" @click="dupliquerProduit(autre)">Dupliquer</button>
                     <button type="button" class="btn btn-warning" @click="selectionProduitAModifier(autre)">Mise à jour</button>
