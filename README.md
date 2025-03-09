@@ -7,4 +7,4 @@ Learn more about the recommended Project Setup and IDE Support in the [Vue Docs 
 Description projet : Site de vente et d'achat de vêtements.
 Utilisation IA : Création fichier CSV téléchargeable.
 URL repo Github : https://github.com/Xavbl/appweb-trpr01
-URl site déployé : 
+URl site déployé : https://xavbl.github.io/appweb-trpr01/
