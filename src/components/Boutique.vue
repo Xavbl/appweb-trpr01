@@ -2,9 +2,8 @@
 <script setup lang="ts">
 import { TypeVetement, Vetement } from '../ts/Vetement';
 import AjoutProduit from './AjoutProduit.vue';
-import { computed, reactive, ref, onMounted, defineComponent, watch, type ComputedRef } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { vetements } from '../ts/produits'
-import { v4 } from 'uuid';
 import ModificationProduit from './ModificationProduit.vue';
 
 // Parent
@@ -20,7 +19,7 @@ const vetementsList = computed(() => vetements.value)
 
 const vetementRecherche = ref('');
 
-    function recherche(recherche : string):Vetement[]{
+    function recherche():Vetement[]{
         const vetementsRecherchesTab: Vetement[] = []
         vetements.value.forEach((vetement) =>{
             if(vetement.name.toLowerCase().includes(vetementRecherche.value.toLowerCase())){
@@ -74,6 +73,9 @@ function acheterProduit(vetement : Vetement){
 }
 
 function retirerProduit(vetement : Vetement){
+    if(prixTotal.value == undefined){
+        prixTotal.value = 0
+    }
     prixTotal.value -= vetement.prix
     prixTotal.value?.toFixed(2)
     const index = produitsAchetes.value?.findIndex(article => article.id === vetement.id)
@@ -168,7 +170,7 @@ function sauvegardeModification(produit : Vetement){
     <div class="recherche">
         <input type="text" v-model="vetementRecherche" placeholder="Recherche"/>
         <div class="card-group">
-            <div class="articles recherches" v-for="vetement in recherche(vetementRecherche)">
+            <div class="articles recherches" v-for="vetement in recherche()">
                 <div class="card" style="width: 18rem;">
                     <img class="card-img-top" v-bind:src="vetement.lienImg" v-bind:alt="vetement.name">
                     <div class="card-body">

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { ref, computed, reactive, type Ref, watch } from "vue"
+    import { ref, watch } from "vue"
     import { TypeVetement, Vetement } from "../ts/Vetement"
     import { vetements } from "../ts/produits";
 

@@ -1,12 +1,11 @@
 <script setup lang="ts">
-    import { ref, computed, reactive, type Ref, watch } from "vue"
+    import { ref } from "vue"
     import { TypeVetement, Vetement } from "../ts/Vetement"
 
     // Enfant
 
     const emit = defineEmits(['insertion-produit'])       
 
-    const idProduit = ref('')
     const nomProduit = ref('')
     const typeProduit = ref<TypeVetement>(TypeVetement.Autre)
     const prix = ref()

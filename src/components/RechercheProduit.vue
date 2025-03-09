@@ -1,21 +1,20 @@
 <script lang="ts">
 import { ref } from 'vue';
-import ModificationProduit from './ModificationProduit.vue';
 import type { Vetement } from '../ts/Vetement'
 import { vetements } from '../ts/produits'
 
 const vetementRecherche = ref('');
 
-    function recherche(recherche : string):Vetement[]{
-        const vetementsRecherchesTab: Vetement[] = []
-        vetements.value.forEach((vetement) =>{
-            if(vetement.name.toLowerCase().includes(vetementRecherche.value.toLowerCase())){
-                vetementsRecherchesTab.push(vetement)
-            }
-        })
-        console.log(vetementsRecherchesTab.length)
-        return vetementsRecherchesTab
-    }
+function recherche():Vetement[]{
+    const vetementsRecherchesTab: Vetement[] = []
+    vetements.value.forEach((vetement) =>{
+        if(vetement.name.toLowerCase().includes(vetementRecherche.value.toLowerCase())){
+            vetementsRecherchesTab.push(vetement)
+        }
+    })
+    console.log(vetementsRecherchesTab.length)
+    return vetementsRecherchesTab
+}
 
 </script>
 <template>
@@ -23,7 +22,7 @@ const vetementRecherche = ref('');
     <div class="recherche">
         <input type="text" v-model="vetementRecherche" placeholder="Recherche"/>
         <div class="card-group">
-            <div class="articles recherches" v-for="vetement in recherche(vetementRecherche)">
+            <div class="articles recherches" v-for="vetement in recherche()">
                 <div class="card" style="width: 18rem;">
                     <img class="card-img-top" v-bind:src="vetement.lienImg" v-bind:alt="vetement.name">
                     <div class="card-body">
